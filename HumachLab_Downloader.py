@@ -51,6 +51,8 @@ class HumachLab_Downloader:
         self.download_directory = os.path.abspath(download_directory)
         if not(os.path.exists(self.download_directory)):
             self.download_directory = os.path.abspath('./')
+        self.download_directory += '/'
+        self.download_directory = self.download_directory.replace('\\', '/')
         if username:
             self.username = username
         if password:
