@@ -14,6 +14,7 @@ from HumachLab_Downloader import HumachLab_Downloader
 
 ### Nureca-TUH (Temple University Hospital) Dataset
 url = 'https://www.isip.piconepress.com/projects/tuh_eeg/downloads/tuh_eeg_seizure/v1.5.1/'
+#url = 'https://www.isip.piconepress.com/projects/tuh_eeg/downloads/tuh_eeg_seizure/v1.5.1/_DOCS/parameter_files/'
 #directory = os.path.abspath('./../TUH_EEG_Dataset')
 directory = os.path.abspath('./')
 unusual_folders = ['1.5.1', '../']
