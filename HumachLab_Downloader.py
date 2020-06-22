@@ -20,25 +20,25 @@ class HumachLab_Downloader:
     # The target url to be downloaded
     url_to_download = ''
     # List of urls in a specific directory to be downloaded
-    url_list = []
+    _url_list = []
     # Directory in which to save contents / Current directory by default
     download_directory = os.getcwd()
     # Username and password if basic authentication is needed
     username = ''
-    password = ''
+    _password = ''
     # List of file types(extension with dot; like- .txt/.avi) to be downloaded / Default all general file types
-    file_types_to_download = ['.']
+    _file_types_to_download = ['.']
     # List of file types(extension with dot; like- .txt/.avi) not to be downloaded / Default None
-    file_types_not_to_download = []
+    _file_types_not_to_download = []
     # Some folder names might contain dots; to consider those as folder, a list could be provided
-    folder_indicator = ['../']
+    _folder_indicator = ['../']
     # Pages might contain unnecessary urls; those can be added here for not considering those
-    url_not_to_consider = ['../', 'mailto:']
+    _url_not_to_consider = ['../', 'mailto:']
     # If anytime needed to download the HTML files without .html extension
-    is_need_html = False
+    _is_need_html = False
 
     ### For session url management
-    download_session = None
+    _download_session = None
 
     ###
     ### Initialize url - optionally username & password if authenticatoin needed
@@ -46,24 +46,24 @@ class HumachLab_Downloader:
     def __init__(self, url_to_download, download_directory='', username='', password='', file_types_to_download=[],
                  file_types_not_to_download=[], folder_indicator=[], url_not_to_consider=[], is_need_html=False):
         self.url_to_download = url_to_download
-        self.download_session = requests.Session()
-        self.url_list = [url_to_download]
+        self._download_session = requests.Session()
+        self._url_list = [url_to_download]
         if download_directory:
             self.download_directory = download_directory
         if username:
             self.username = username
         if password:
-            self.password = password
+            self._password = password
         if file_types_to_download:
-            self.file_types_to_download += file_types_to_download
+            self._file_types_to_download += file_types_to_download
         if file_types_not_to_download:
-            self.file_types_not_to_download += file_types_not_to_download
+            self._file_types_not_to_download += file_types_not_to_download
         if folder_indicator:
-            self.folder_indicator += folder_indicator
+            self._folder_indicator += folder_indicator
         if url_not_to_consider:
-            self.url_not_to_consider += url_not_to_consider
+            self._url_not_to_consider += url_not_to_consider
         if is_need_html:
-            self.is_need_html = True
+            self._is_need_html = True
 
     ###
     ### Download all the enlisted files and explore directories if any
@@ -71,20 +71,20 @@ class HumachLab_Downloader:
     def download(self):
         print(
             '\n########################################\n      Download begins...      \n########################################\n')
-        self.process_download(self.url_list)
+        self._process_download(self._url_list)
         print(
             '\n########################################\nFinished with all downloads...\n########################################\n')
 
     ###
     ### Download all the enlisted files and explore directories if any
     ###
-    def process_download(self, url_list):
+    def _process_download(self, url_list):
         length_of_the_list = len(url_list)
 
         while (length_of_the_list > 0):
             specific_url = url_list[0]
 
-            content_type = self.find_content_type_of_the_url(specific_url)
+            content_type = self._find_content_type_of_the_url(specific_url)
 
             ### Checks for file/directory, ==1 means file
             if (content_type == 1 or content_type == 3):
@@ -99,7 +99,7 @@ class HumachLab_Downloader:
                         filename = filename[1:]
                     filename = self.download_directory + '/' + filename
 
-                    is_downloaded = self.download_specific_file(specific_url)
+                    is_downloaded = self._download_specific_file(specific_url)
 
                     if (is_downloaded == 1):
                         print('### Download successful %s' % specific_url)
@@ -125,7 +125,7 @@ class HumachLab_Downloader:
                     continue
             else:
                 print('directory...', specific_url)
-                temp_url = self.explore_and_show_all_files_and_directories(specific_url)
+                temp_url = self._explore_and_show_all_files_and_directories(specific_url)
                 url_list.pop(0)
                 length_of_the_list = len(url_list)
 
@@ -139,7 +139,7 @@ class HumachLab_Downloader:
                 if not os.path.exists(self.download_directory):
                     os.mkdir(self.download_directory)
 
-                self.process_download(temp_url)
+                self._process_download(temp_url)
 
         res = self.download_directory.rfind('/', 0, len(self.download_directory))
         self.download_directory = self.download_directory[:res]
@@ -147,7 +147,7 @@ class HumachLab_Downloader:
     ###
     ### Finds the type of the url is file or directory, =0 folder, =1 file & =3 skip it
     ###
-    def find_content_type_of_the_url(self, content_url):
+    def _find_content_type_of_the_url(self, content_url):
         is_the_url_a_file = 0
         req = None
 
@@ -163,24 +163,24 @@ class HumachLab_Downloader:
         if (not filename):
             pass
 
-        elif (any(x in filename for x in self.folder_indicator)):
+        elif (any(x in filename for x in self._folder_indicator)):
             pass
 
-        elif (any(x in filename for x in self.file_types_not_to_download)):
+        elif (any(x in filename for x in self._file_types_not_to_download)):
             is_the_url_a_file = 2
         else:
-            if (len(self.file_types_to_download) == 1):
-                is_the_url_a_file = 1;
-            elif (len(self.file_types_to_download) > 1 and any(x in filename for x in self.file_types_to_download[1:])):
-                is_the_url_a_file = 1;
+            if (len(self._file_types_to_download) == 1):
+                is_the_url_a_file = 1
+            elif (len(self._file_types_to_download) > 1 and any(x in filename for x in self._file_types_to_download[1:])):
+                is_the_url_a_file = 1
             else:
                 pass
 
         try:
-            if not (self.username and self.password):
-                req = self.download_session.head(content_url, stream=True)
+            if not (self.username and self._password):
+                req = self._download_session.head(content_url, stream=True)
             else:
-                req = self.download_session.head(content_url, auth=(self.username, self.password), stream=True)
+                req = self._download_session.head(content_url, auth=(self.username, self._password), stream=True)
 
             # print('Web url:', req.status_code, content_url)
             if req.status_code == 200:
@@ -188,7 +188,7 @@ class HumachLab_Downloader:
                     if (req.headers['Content-Encoding'].find('gzip') != -1 and req.headers['Content-Type'].find(
                             'html') != -1):
                         # print('-------> possibly folder')
-                        if (self.is_need_html or filename.find('html') != -1 or filename.find('htm') != -1):
+                        if (self._is_need_html or filename.find('html') != -1 or filename.find('htm') != -1):
                             # print('-------> thought as folder but is file')
                             is_the_url_a_file = 1
                     else:
@@ -213,15 +213,15 @@ class HumachLab_Downloader:
     ###
     ### Explore and display all files and directories in specific web location
     ###
-    def explore_and_show_all_files_and_directories(self, web_url):
+    def _explore_and_show_all_files_and_directories(self, web_url):
         new_url_list = []
         req = None
 
         try:
             if (not self.username):
-                req = self.download_session.get(web_url, stream=True)
+                req = self._download_session.get(web_url, stream=True)
             else:
-                req = self.download_session.get(web_url, auth=(self.username, self.password), stream=True)
+                req = self._download_session.get(web_url, auth=(self.username, self._password), stream=True)
 
             if req.status_code == 200:
                 web_page = req.text
@@ -235,7 +235,7 @@ class HumachLab_Downloader:
                 for node in urls_from_webpage:
                     # Test for text files only
                     # if (node.find('.txt')>0 or (node.endswith('/') and not node.endswith('../'))):
-                    if (node.count('//') == 1 and not any(x in node for x in self.url_not_to_consider)):
+                    if (node.count('//') == 1 and not any(x in node for x in self._url_not_to_consider)):
                         new_url_list.append(node)
             else:
                 print('Status code {}: Something went wrong during url request.'.format(req.status_code, req))
@@ -251,7 +251,7 @@ class HumachLab_Downloader:
     ###
     ### Download a specific file with url with its progress report =1 complete, =2 already downloaded, =0 problem downloading
     ###
-    def download_specific_file(self, file_url):
+    def _download_specific_file(self, file_url):
         is_download_complete = 0
         req = None
 
@@ -266,9 +266,9 @@ class HumachLab_Downloader:
 
         try:
             if (not self.username):
-                req2 = self.download_session.head(file_url, stream=True)
+                req2 = self._download_session.head(file_url, stream=True)
             else:
-                req2 = self.download_session.head(file_url, auth=(self.username, self.password), stream=True)
+                req2 = self._download_session.head(file_url, auth=(self.username, self._password), stream=True)
 
             if req2.status_code == 200:
                 chunk_size = 1024  # in bytes
@@ -294,12 +294,12 @@ class HumachLab_Downloader:
                     total_size = 0
 
                 if (not self.username):
-                    req = self.download_session.get(file_url, headers=resume_header, stream=True)
-                    # req = self.download_session.get(file_url, stream=True)
+                    req = self._download_session.get(file_url, headers=resume_header, stream=True)
+                    # req = self._download_session.get(file_url, stream=True)
                 else:
-                    req = self.download_session.get(file_url, auth=(self.username, self.password),
+                    req = self._download_session.get(file_url, auth=(self.username, self._password),
                                                     headers=resume_header, stream=True)
-                    # req = self.download_session.get(file_url, auth=(self.username, self.password), stream=True)
+                    # req = self._download_session.get(file_url, auth=(self.username, self._password), stream=True)
 
                 tqdm_description = 'Downloading \"' + filename + '\"'
                 tqdm_task = tqdm(iterable=req.iter_content(chunk_size=chunk_size), total=total_size / chunk_size,
@@ -330,14 +330,14 @@ class HumachLab_Downloader:
                                 current_data_byte += len(data)
 
                         # tqdm_task.update(total_size/chunk_size)
-                        is_download_complete = 1;
+                        is_download_complete = 1
                     except:
                         print('Sorry, something went wrong internally downloading file data.')
-                        is_download_complete = 0;
+                        is_download_complete = 0
 
                 else:
                     print('Sorry, can not download file.')
-                    is_download_complete = 0;
+                    is_download_complete = 0
             else:
                 print('Status code {}: Something went wrong downloading file.'.format(req.status_code, req))
                 is_download_complete = 0;
