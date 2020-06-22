@@ -43,13 +43,14 @@ class HumachLab_Downloader:
     ###
     ### Initialize url - optionally username & password if authenticatoin needed
     ###
-    def __init__(self, url_to_download, download_directory='', username='', password='', file_types_to_download=[],
+    def __init__(self, url_to_download, download_directory='./', username='', password='', file_types_to_download=[],
                  file_types_not_to_download=[], folder_indicator=[], url_not_to_consider=[], is_need_html=False):
         self.url_to_download = url_to_download
         self._download_session = requests.Session()
         self._url_list = [url_to_download]
-        if download_directory:
-            self.download_directory = download_directory
+        self.download_directory = os.path.abspath(download_directory)
+        if not(os.path.exists(self.download_directory)):
+            self.download_directory = os.path.abspath('./')
         if username:
             self.username = username
         if password:
