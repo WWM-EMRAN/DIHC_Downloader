@@ -29,7 +29,7 @@ password = 'nedc_tuh_eeg'
 
 downloader = HumachLab_Downloader(url, download_directory=directory, username=username, password=password, folder_indicator=unusual_folders, url_not_to_consider=unusual_url)
 
-#print(downloader.download_directory)
+#print(downloader.__dict__)
 downloader.download()
 
 
