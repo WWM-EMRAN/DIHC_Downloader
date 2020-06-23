@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Jun  5 20:55:47 2020
+@author: WWM Emran (wwm.emran@gmail.com)
+Copyright and support: HumachLab (humachlab@gmail.com)
+"""
 
 ### Test Download module
 from HumachLab_Downloader import HumachLab_Downloader
