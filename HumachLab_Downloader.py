@@ -5,6 +5,7 @@ Created on Fri Jun  5 20:55:47 2020
 Copyright and support: HumachLab (humachlab@gmail.com)
 """
 
+#%%
 from tqdm import tqdm
 import requests
 # from requests.auth import HTTPDigestAuth
@@ -357,18 +358,20 @@ class HumachLab_Downloader:
 
 
 
+#%%
 # ########################################
 # # Testing...............
 #
-# # ### CHB-MIT EEG Dataset
-# # url = 'https://www.physionet.org/files/chbmit/1.0.0/'
-# # #directory = './../CHB_MIT_EEG_Dataset'
-# # directory = './'
-# # unusual_folders = ['1.0.0']
-# #
-# # downloader = HumachLab_Downloader(url, download_directory=directory, folder_indicator=unusual_folders)
-# 
+#%%
+# ### CHB-MIT EEG Dataset
+# url = 'https://www.physionet.org/files/chbmit/1.0.0/'
+# #directory = './../CHB_MIT_EEG_Dataset'
+# directory = './'
+# unusual_folders = ['1.0.0']
 #
+# downloader = HumachLab_Downloader(url, download_directory=directory, folder_indicator=unusual_folders)
+
+#%%
 # ### Nureca-TUH (Temple University Hospital) Dataset
 # url = 'https://www.isip.piconepress.com/projects/tuh_eeg/downloads/tuh_eeg_seizure/v1.5.1/'
 # #url = 'https://www.isip.piconepress.com/projects/tuh_eeg/downloads/tuh_eeg_seizure/v1.5.1/_DOCS/parameter_files/'
@@ -380,6 +383,9 @@ class HumachLab_Downloader:
 # password = 'nedc_tuh_eeg'
 #
 # downloader = HumachLab_Downloader(url, download_directory=directory, username=username, password=password, folder_indicator=unusual_folders, url_not_to_consider=unusual_url)
-#
-# #print(downloader.__dict__)
+
+#%%
+# print(downloader.__dict__)
 # downloader.download()
+
+#%%

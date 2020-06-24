@@ -5,9 +5,11 @@ Created on Fri Jun  5 20:55:47 2020
 Copyright and support: HumachLab (humachlab@gmail.com)
 """
 
+#%%
 ### Test Download module
 from HumachLab_Downloader import HumachLab_Downloader
 
+#%%
 # ### CHB-MIT EEG Dataset
 # url = 'https://www.physionet.org/files/chbmit/1.0.0/'
 # #directory = './../CHB_MIT_EEG_Dataset'
@@ -16,7 +18,7 @@ from HumachLab_Downloader import HumachLab_Downloader
 #
 # downloader = HumachLab_Downloader(url, download_directory=directory, folder_indicator=unusual_folders)
 
-
+#%%
 ### Nureca-TUH (Temple University Hospital) Dataset
 url = 'https://www.isip.piconepress.com/projects/tuh_eeg/downloads/tuh_eeg_seizure/v1.5.1/'
 #url = 'https://www.isip.piconepress.com/projects/tuh_eeg/downloads/tuh_eeg_seizure/v1.5.1/_DOCS/parameter_files/'
@@ -29,7 +31,9 @@ password = 'nedc_tuh_eeg'
 
 downloader = HumachLab_Downloader(url, download_directory=directory, username=username, password=password, folder_indicator=unusual_folders, url_not_to_consider=unusual_url)
 
+#%%
 #print(downloader.__dict__)
 downloader.download()
 
+#%%
 
