@@ -1,11 +1,27 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Jun  5 20:55:47 2020
-@author: WWM Emran (wwm.emran@gmail.com)
-Copyright and support: HumachLab (humachlab@gmail.com)
+File Name: DIHC_Downloader.py
+Author: WWM Emran (Emran Ali)
+Involvement: HumachLab (HML) & Deakin- Innovation in Healthcare (DIHC)
+Email: wwm.emran@gmail.com, emran.ali@research.deakin.edu.au
+Date: 5/07/2020 8:55 pm
 """
 
-#%%
+
+""" Nested file downloader from nested directories of a web directory
+
+This script contains a class that allows some functions to download files from the web directory when a specific name 
+of the web directory is provided. It automatically finds the links to the multilevel nested directories, sorts them 
+accordingly and saves them in the corresponding nested directories. 
+If the download is interrupted then next time with the same parameters it will start downloading from the file it was 
+been interrupted, if the download directory contains the already downloaded files and folder structure. 
+"""
+
+
+
+""" Importing necessary modules
+"""
+# #%%
 from tqdm import tqdm
 import requests
 # from requests.auth import HTTPDigestAuth
@@ -16,8 +32,49 @@ from bs4 import BeautifulSoup
 
 # The base url and base directory will be provided later
 
-class HumachLab_Downloader:
-    ### For initial settings
+class DIHC_Downloader:
+    """ Downloader class that manages all the functionalities for downloading files
+
+    This class contains all the properties requires to customize the properties of download processes. It also contains
+    the functions used for directory traversal and byte movement (downloading).
+
+    Properties
+    -----------
+    url_to_download : str
+        Base URL of the web directory to download files from
+    download_directory : str
+        Download directory where the files will be stored
+    Optional
+    ---------
+    username: str
+        If the web directory needs authentication to access the contents
+    password: str
+        If the web directory needs authentication to access the contents
+    file_types_to_download: list(str)
+        List of the specific types of files to download
+    file_types_not_to_download: list(str)
+        List of the specific types of files to to be excluded to download
+    folder_indicator: list(str)
+        Special folder names containing special characters that are usually excluded but expected to be downloaded
+    url_not_to_consider: list(str)
+        Web directory may contain unnecessary links that can be considered as folders but are not and meant to be
+        excluded during downloading
+    is_need_html: bool
+        If the web directory contains html file and instead of traversing thru the link to find folders, that html files
+        are needed to be downloaded
+
+    Methods
+    --------
+    __init()__
+        Takes- Minimum two of the parameter values from above parameter list | Returns- Object of this class | Func-
+        Creates an object with the corresponding parameter values assigned to it
+    download()
+        Takes- none | Returns- none | Func- Traverse thru the web directory to find the nested directories and their
+        contents. Downloads them and sort accordingly in the local download directory.
+    """
+
+
+    # ### For initial settings
     # The target url to be downloaded
     url_to_download = ''
     # List of urls in a specific directory to be downloaded
@@ -38,14 +95,48 @@ class HumachLab_Downloader:
     # If anytime needed to download the HTML files without .html extension
     _is_need_html = False
 
-    ### For session url management
+    # ### For session url management
     _download_session = None
 
-    ###
-    ### Initialize url - optionally username & password if authenticatoin needed
-    ###
+    # ###
+    # ### Initialize url - optionally username & password if authenticatoin needed
+    # ###
     def __init__(self, url_to_download, download_directory='./', username='', password='', file_types_to_download=[],
                  file_types_not_to_download=[], folder_indicator=[], url_not_to_consider=[], is_need_html=False):
+        """Creates an object with the corresponding parameter values assigned to it
+
+        Parameters
+        ----------
+        url_to_download : str
+            Base URL of the web directory to download files from
+        download_directory : str
+            Download directory where the files will be stored
+        Optional
+        ---------
+        username: str
+            If the web directory needs authentication to access the contents
+        password: str
+            If the web directory needs authentication to access the contents
+        file_types_to_download: list(str)
+            List of the specific types of files to download
+        file_types_not_to_download: list(str)
+            List of the specific types of files to to be excluded to download
+        folder_indicator: list(str)
+            Special folder names containing special characters that are usually excluded but expected to be downloaded
+        url_not_to_consider: list(str)
+            Web directory may contain unnecessary links that can be considered as folders but are not and meant to be
+            excluded during downloading
+        is_need_html: bool
+            If the web directory contains html file and instead of traversing thru the link to find folders, that html files
+            are needed to be downloaded
+
+        Returns
+        -------
+        object
+            Object of this current class
+        """
+
+
         self.url_to_download = url_to_download
         self._download_session = requests.Session()
         self._url_list = [url_to_download]
@@ -69,19 +160,36 @@ class HumachLab_Downloader:
         if is_need_html:
             self._is_need_html = True
 
-    ###
-    ### Download all the enlisted files and explore directories if any
-    ###
+    # ###
+    # ### Download all the enlisted files and explore directories if any
+    # ###
     def download(self):
+        """Traverse thru the web directory to find the nested directories and their contents. Downloads them and sort
+        accordingly in the local download directory.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+        """
+
+
         print(
             '\n########################################\n      Download begins...      \n########################################\n')
         self._process_download(self._url_list)
         print(
             '\n########################################\nFinished with all downloads...\n########################################\n')
+        return
 
-    ###
-    ### Download all the enlisted files and explore directories if any
-    ###
+
+
+    # ######################################## Private methods zone ########################################
+    # ###
+    # ### Download all the enlisted files and explore directories if any
+    # ###
     def _process_download(self, url_list):
         length_of_the_list = len(url_list)
 
@@ -90,7 +198,7 @@ class HumachLab_Downloader:
 
             content_type = self._find_content_type_of_the_url(specific_url)
 
-            ### Checks for file/directory, ==1 means file
+            # ### Checks for file/directory, ==1 means file
             if (content_type == 1 or content_type == 3):
                 print('file...', specific_url)
 
@@ -148,9 +256,9 @@ class HumachLab_Downloader:
         res = self.download_directory.rfind('/', 0, len(self.download_directory))
         self.download_directory = self.download_directory[:res]
 
-    ###
-    ### Finds the type of the url is file or directory, =0 folder, =1 file & =3 skip it
-    ###
+    # ###
+    # ### Finds the type of the url is file or directory, =0 folder, =1 file & =3 skip it
+    # ###
     def _find_content_type_of_the_url(self, content_url):
         is_the_url_a_file = 0
         req = None
@@ -214,9 +322,9 @@ class HumachLab_Downloader:
 
         return (is_the_url_a_file)
 
-    ###
-    ### Explore and display all files and directories in specific web location
-    ###
+    # ###
+    # ### Explore and display all files and directories in specific web location
+    # ###
     def _explore_and_show_all_files_and_directories(self, web_url):
         new_url_list = []
         req = None
@@ -252,9 +360,9 @@ class HumachLab_Downloader:
 
         return new_url_list
 
-    ###
-    ### Download a specific file with url with its progress report =1 complete, =2 already downloaded, =0 problem downloading
-    ###
+    # ###
+    # ### Download a specific file with url with its progress report =1 complete, =2 already downloaded, =0 problem downloading
+    # ###
     def _download_specific_file(self, file_url):
         is_download_complete = 0
         req = None
@@ -278,7 +386,7 @@ class HumachLab_Downloader:
                 chunk_size = 1024  # in bytes
                 total_size = 0
 
-                ### Resuming file download
+                # ### Resuming file download
                 # accept_ranges = None
                 resume_header = None
                 resume_byte_pos = 0
@@ -302,7 +410,7 @@ class HumachLab_Downloader:
                     # req = self._download_session.get(file_url, stream=True)
                 else:
                     req = self._download_session.get(file_url, auth=(self.username, self._password),
-                                                    headers=resume_header, stream=True)
+                                                     headers=resume_header, stream=True)
                     # req = self._download_session.get(file_url, auth=(self.username, self._password), stream=True)
 
                 tqdm_description = 'Downloading \"' + filename + '\"'
@@ -318,7 +426,7 @@ class HumachLab_Downloader:
                     # print(filename, ' ', total_size, " ", (os.stat(filename).st_size))
                     # print('Already downloaded!')
                 elif ((not os.path.exists(filename) and not os.path.exists(filename + '.tmp')) or (
-                os.path.exists(filename + '.tmp'))):
+                        os.path.exists(filename + '.tmp'))):
                     try:
                         # print('Downloading...')
                         file_writing_mode = 'ab'
@@ -358,34 +466,3 @@ class HumachLab_Downloader:
 
 
 
-#%%
-# ########################################
-# # Testing...............
-#
-#%%
-# ### CHB-MIT EEG Dataset
-# url = 'https://www.physionet.org/files/chbmit/1.0.0/'
-# #directory = './../CHB_MIT_EEG_Dataset'
-# directory = './'
-# unusual_folders = ['1.0.0']
-#
-# downloader = HumachLab_Downloader(url, download_directory=directory, folder_indicator=unusual_folders)
-
-#%%
-# ### Nureca-TUH (Temple University Hospital) Dataset
-# url = 'https://www.isip.piconepress.com/projects/tuh_eeg/downloads/tuh_eeg_seizure/v1.5.1/'
-# #url = 'https://www.isip.piconepress.com/projects/tuh_eeg/downloads/tuh_eeg_seizure/v1.5.1/_DOCS/parameter_files/'
-# #directory = './../TUH_EEG_Dataset'
-# directory = './'
-# unusual_folders = ['1.5.1', '../']
-# unusual_url = ['/?']
-# username = 'nedc_tuh_eeg'
-# password = 'nedc_tuh_eeg'
-#
-# downloader = HumachLab_Downloader(url, download_directory=directory, username=username, password=password, folder_indicator=unusual_folders, url_not_to_consider=unusual_url)
-
-#%%
-# print(downloader.__dict__)
-# downloader.download()
-
-#%%
