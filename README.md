@@ -86,44 +86,32 @@ It also contains the functions used for directory traversal and byte movement (d
 ## Application (Code Examples) 
     """ Importing necessary modules
     """
-    # #%%
-    # ### Test Download module
     from DIHC_Downloader import DIHC_Downloader
 
 
     """ Test parameter setup for normal web directory
     """
-    # #%%
-    # ### CHB-MIT EEG Dataset
-    # url = 'https://www.physionet.org/files/chbmit/1.0.0/'
-    # #directory = './../CHB_MIT_EEG_Dataset'
-    # directory = './'
-    # unusual_folders = ['1.0.0']
-    #
-    # downloader = DIHC_Downloader(url, download_directory=directory, folder_indicator=unusual_folders)
+    ### Example-1
+    url = 'https://www.physionet.org/files/chbmit/1.0.0/'
+    directory = './'
+    unusual_folders = ['1.0.0']
+    downloader = DIHC_Downloader(url, download_directory=directory, folder_indicator=unusual_folders)
 
 
     """ Test parameter setup with web directory that requires authentication credentials
     """
-    # #%%
-    # ### Nureca-TUH (Temple University Hospital) Dataset
+    ### Example-2
     url = 'https://www.isip.piconepress.com/projects/tuh_eeg/downloads/tuh_eeg_seizure/v1.5.1/'
-    #url = 'https://www.isip.piconepress.com/projects/tuh_eeg/downloads/tuh_eeg_seizure/v1.5.1/_DOCS/parameter_files/'
-    #directory = './../TUH_EEG_Dataset'
     directory = './'
     unusual_folders = ['1.5.1', '../']
     unusual_url = ['/?']
     username = 'nedc_tuh_eeg'
     password = 'nedc_tuh_eeg'
-
     downloader = DIHC_Downloader(url, download_directory=directory, username=username, password=password, folder_indicator=unusual_folders, url_not_to_consider=unusual_url)
-
-
 
     """ Strat downloading process
     """
     # #%%
-    #print(downloader.__dict__)
     downloader.download()
 
 
