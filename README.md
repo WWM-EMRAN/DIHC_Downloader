@@ -26,7 +26,21 @@ Downloader class that manages all the functionalities for downloading files <br>
 
 #### Insight: <br> 
 This class contains all the properties requires to customize the properties of download processes. 
-It also contains the functions used for directory traversal and byte movement (downloading). 
+It also contains the functions used for directory traversal and byte movement (downloading).
+    
+###### Methods
+--------
+
+- __ init() __
+
+    Takes- Minimum two of the parameter values from above parameter list | Returns- Object of this class | Func-
+    Creates an object with the corresponding parameter values assigned to it
+    
+- download()
+
+    Takes- none | Returns- none | Func- Traverse thru the web directory to find the nested directories and their
+    contents. Downloads them and sort accordingly in the local download directory.
+
 
 ###### Properties
 -----------
@@ -68,20 +82,7 @@ It also contains the functions used for directory traversal and byte movement (d
 
     If the web directory contains html file and instead of traversing thru the link to find folders, that html files
     are needed to be downloaded
-    
-###### Methods
---------
-
-- __ init() __
-
-    Takes- Minimum two of the parameter values from above parameter list | Returns- Object of this class | Func-
-    Creates an object with the corresponding parameter values assigned to it
-    
-- download()
-
-    Takes- none | Returns- none | Func- Traverse thru the web directory to find the nested directories and their
-    contents. Downloads them and sort accordingly in the local download directory.
-
+  
 
 ## Application (Code Examples) 
     """ Importing necessary modules
