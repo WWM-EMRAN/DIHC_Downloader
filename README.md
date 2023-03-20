@@ -85,13 +85,11 @@ It also contains the functions used for directory traversal and byte movement (d
   
 
 ## Application (Code Examples) 
-    """ Importing necessary modules
-    """
+    ##### Importing necessary modules
     from DIHC_Downloader import DIHC_Downloader
 
 
-    """ Test parameter setup for normal web directory
-    """
+    ##### Test parameter setup for normal web directory 
     ### Example-1
     url = 'https://www.physionet.org/files/chbmit/1.0.0/'
     directory = './'
@@ -99,8 +97,7 @@ It also contains the functions used for directory traversal and byte movement (d
     downloader = DIHC_Downloader(url, download_directory=directory, folder_indicator=unusual_folders)
 
 
-    """ Test parameter setup with web directory that requires authentication credentials
-    """
+    ##### Test parameter setup with web directory that requires authentication credentials
     ### Example-2
     url = 'https://www.isip.piconepress.com/projects/tuh_eeg/downloads/tuh_eeg_seizure/v1.5.1/'
     directory = './'
@@ -110,9 +107,7 @@ It also contains the functions used for directory traversal and byte movement (d
     password = 'nedc_tuh_eeg'
     downloader = DIHC_Downloader(url, download_directory=directory, username=username, password=password, folder_indicator=unusual_folders, url_not_to_consider=unusual_url)
 
-    """ Strat downloading process
-    """
-    # #%%
+    ##### Strat downloading process
     downloader.download()
 
 
