@@ -1,7 +1,7 @@
 # DIHC_Downloader
 
 
-## Project Name: DIHC_Downloader 
+## About the project
 Author: WWM Emran (Emran Ali)
 
 Involvement: HumachLab (HML) & Deakin- Innovation in Healthcare (DIHC)
@@ -9,7 +9,10 @@ Involvement: HumachLab (HML) & Deakin- Innovation in Healthcare (DIHC)
 Email: wwm.emran@gmail.com, emran.ali@research.deakin.edu.au
 
 
-## What does it do?
+## Description
+This library was initially developed for personal and team's research application targetting data collection from publically available sources.
+Please keep in mind that this is not intended violate any privacy or data protection rules. 
+
 Nested file downloader from nested directories of a web directory
 
 This script contains a class that allows some functions to download files from the web directory when a specific name 
@@ -20,7 +23,7 @@ If the download is interrupted then next time with the same parameters it will s
 been interrupted, if the download directory contains the already downloaded files and folder structure. 
 
 
-## Description 
+[comment]: <> (## Description )
 #### Key Task:
 Downloader class that manages all the functionalities for downloading files <br> 
 
@@ -109,6 +112,14 @@ It also contains the functions used for directory traversal and byte movement (d
 
     ##### Strat downloading process
     downloader.download()
+
+
+## Declaration
+Please keep in mind that this is not intended violate any privacy or data protection rules.
+Please use on your own responsibility.
+Please feel free to point out bug and the team will try to solve it as early possible. 
+
+
 
 
 ## About
