@@ -35,16 +35,41 @@ from DIHC_Downloader import DIHC_Downloader
 # downloader = DIHC_Downloader(url, download_directory=directory, folder_indicator=unusual_folders)
 
 
-""" Test parameter setup for normal web directory - 2
+# """ Test parameter setup for normal web directory - 2
+# """
+# #%%
+# ### CAP Sleep EEG Dataset
+# url = 'https://physionet.org/files/capslpdb/1.0.0/'
+# #directory = './../CHB_MIT_EEG_Dataset'
+# directory = './'
+# unusual_folders = ['1.0.0']
+#
+# downloader = DIHC_Downloader(url, download_directory=directory, folder_indicator=unusual_folders)
+
+
+# """ Test parameter setup for normal web directory - 3
+# """
+# #%%
+# ### Sleep edfx (EDF-extended) EEG Dataset
+# url = 'https://physionet.org/files/sleep-edfx/1.0.0/'
+# #directory = './../CHB_MIT_EEG_Dataset'
+# directory = './'
+# unusual_folders = ['1.0.0']
+#
+# downloader = DIHC_Downloader(url, download_directory=directory, folder_indicator=unusual_folders)
+
+
+""" Test parameter setup for normal web directory - 4
 """
 #%%
-### CAP Sleep EEG Dataset
-url = 'https://physionet.org/files/capslpdb/1.0.0/'
+### Sleep edf (EDF) EEG Dataset
+url = 'https://physionet.org/files/sleep-edfx/1.0.0/'
 #directory = './../CHB_MIT_EEG_Dataset'
 directory = './'
 unusual_folders = ['1.0.0']
 
 downloader = DIHC_Downloader(url, download_directory=directory, folder_indicator=unusual_folders)
+
 
 
 """ Test parameter setup with web directory that requires authentication credentials
